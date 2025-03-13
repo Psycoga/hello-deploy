@@ -3,29 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recon</title>
+    <title>Recon Form</title>
 </head>
 <body>
-    <form>
-        <label for="target">Target:</label>
-        <input type="text" id="target" name="target" required>
+    <h1>Recon Form</h1>
+    <form id="reconForm">
+        <label for="domain">Domain:</label>
+        <input type="text" id="domain" name="domain" required>
+        <br>
+        <label for="APIKEY">API Key:</label>
+        <input type="text" id="APIKEY" name="APIKEY" required>
+        <br>
         <button type="submit">Submit</button>
     </form>
-<script>
-    fetch('http://localhost:3000/recon', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                domain: 'mercadona.com',
-                APIKEY: '1234'
+
+    <script>
+        const form = document.getElementById('reconForm');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            console.log('Form submitted');
+
+            const domain = document.getElementById('domain').value;
+            const APIKEY = document.getElementById('APIKEY').value;
+
+            fetch('http://localhost:3000/recon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    domain: domain,
+                    APIKEY: APIKEY
+                })
             })
-        })
             .then(response => response.text())
             .then(data => console.log(data))
             .catch(error => console.error('Error:', error));
-</script>
+        });
+    </script>
 </body>
 </html>
