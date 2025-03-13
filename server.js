@@ -71,9 +71,12 @@ app.get("/auth/github/callback", passport.authenticate('github', { failureRedire
 );
 
 app.get("/profile", middlewareAuth, (req, res) => {
-    const html = `Hola ${req.user.username || req.user.displayName}`
-    res.send(html)
-})
+    if (req.user.username !== process.env.USERNAME) {
+        return res.status(403).send("Acceso denegado");
+    }
+    const html = `Hola ${req.user.username}`;
+    res.send(html);
+});
 
 app.get("/recon", middlewareAuth, (req, res) => {
     const html = `aqui ira mi recon`
